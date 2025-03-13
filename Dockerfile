@@ -1,12 +1,19 @@
-# this is my base image
-FROM alpine:3.5
+FROM python:3.8
 
-# Install python and pip
-RUN apk add --update py2-pip
+# Update CA certificates and install necessary dependencies
+RUN apt-get update && apt-get install -y ca-certificates python3-pip python3-dev libssl-dev
 
-# install Python modules needed by the Python app
+# Upgrade pip to the latest version
+RUN pip install --upgrade pip
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy requirements.txt into the container
 COPY requirements.txt /usr/src/app/
-RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
+
+# Install dependencies with a trusted host workaround (if needed)
+RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt --trusted-host pypi.org --trusted-host pypi.python.org
 
 # copy files required for the app to run
 COPY app.py /usr/src/app/
