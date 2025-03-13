@@ -13,7 +13,7 @@ pipeline {
            stage('Building image') {
              steps{
                   script {
-                   dockerImage = docker.build registry
+                  def dockerImage = docker.build('529088272063.dkr.ecr.eu-north-1.amazonaws.com/python-repo')
                    }
       }
            }
