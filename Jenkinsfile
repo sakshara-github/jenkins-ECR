@@ -7,7 +7,7 @@ pipeline {
     stages {
           stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/M/jenkins-ECR.git'
+                git branch: 'main', url: 'https://github.com/sakshara-github/jenkins-ECR.git'
             }
         }
            stage('Building image') {
