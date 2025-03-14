@@ -1,7 +1,7 @@
 pipeline {
     agent any
      environment {
-        registry = "529088272063.dkr.ecr.eu-north-1.amazonaws.com/python-repo"
+        registry = "529088272063.dkr.ecr.us-east-2.amazonaws.com/python-repo"
     }
    
     stages {
@@ -13,7 +13,7 @@ pipeline {
            stage('Building image') {
              steps{
                   script {
-                      dockerImage = docker.build('529088272063.dkr.ecr.eu-north-1.amazonaws.com/python-repo')
+                      dockerImage = docker.build('529088272063.dkr.ecr.us-east-2.amazonaws.com/python-repo')
                    }
       }
            }
@@ -22,8 +22,8 @@ pipeline {
              steps{  
                   script {
                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-key', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-    sh 'aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 529088272063.dkr.ecr.eu-north-1.amazonaws.com'
-     sh 'docker push 529088272063.dkr.ecr.eu-north-1.amazonaws.com/python-repo:latest'
+    sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 529088272063.dkr.ecr.us-east-2.amazonaws.com'
+     sh 'docker push 529088272063.dkr.ecr.us-east-2.amazonaws.com/python-repo:latest'
 }
 
 }
@@ -38,7 +38,7 @@ pipeline {
             stage('Docker Run') {
               steps{
                    script {
-                sh 'docker run -d -p 8096:5000 --rm --name mypythonContainer <Account_ID>.dkr.ecr.eu-north-1.amazonaws.com/python-repo:latest'     
+                sh 'docker run -d -p 8096:5000 --rm --name mypythonContainer <Account_ID>.dkr.ecr.us-east-2.amazonaws.com/python-repo:latest'     
       }
     }
         }
